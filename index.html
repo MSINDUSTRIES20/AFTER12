@@ -26,6 +26,7 @@
     body { 
       font-family: 'Work Sans', sans-serif; 
       background: transparent; 
+      overflow-x: hidden;
     }
     .display { font-family: 'Fraunces', serif; }
     
@@ -69,12 +70,24 @@
     }
     .entry-accent { animation: glowPulse 2s ease-in-out infinite; animation-delay: .8s; opacity: .4; }
     
-    /* Reveal on Scroll */
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
-    .reveal.revealed { opacity: 1; transform: none; }
+    /* --- CINEMATIC SMOOTH SCROLL REVEAL ANIMATIONS --- */
+    .reveal { 
+      opacity: 0; 
+      transform: translateY(60px) scale(0.95); 
+      filter: blur(8px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+      will-change: opacity, transform, filter;
+    }
+    .reveal.revealed { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+      filter: blur(0);
+    }
     
-    @keyframes riseIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
-    .hero-anim { opacity: 0; animation: riseIn .9s cubic-bezier(.2,.7,.2,1) forwards; }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(5px); } to { opacity: 1; transform: none; filter: blur(0); } }
+    .hero-anim { opacity: 0; animation: riseIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     
     @keyframes floatGlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
     .float-glow { animation: floatGlow 6s ease-in-out infinite; }
@@ -87,8 +100,8 @@
     .playing .wave-bar:nth-child(3n) { animation-duration: 1.2s; }
     
     /* Interactions */
-    .card-hover { transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s, background .3s ease; }
-    .card-hover:hover { transform: translateY(-8px); border-color: rgba(212,175,55,.6); box-shadow: 0 20px 50px -20px rgba(212,175,55,.35); background: rgba(22,22,22,.8); }
+    .card-hover { transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .5s, border-color .5s, background .4s ease; }
+    .card-hover:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(212,175,55,.6); box-shadow: 0 30px 60px -20px rgba(212,175,55,.35); background: rgba(22,22,22,.85); z-index: 10; }
     
     .btn-gold { transition: transform .25s cubic-bezier(.34,.1,.68,1), box-shadow .3s, filter .25s; box-shadow: 0 8px 30px -8px rgba(212,175,55,.5); }
     .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 40px -8px rgba(212,175,55,.7); }
@@ -130,7 +143,7 @@
     .custom-input:focus { outline: none; border-color: #d4af37; }
   </style>
 </head>
-<body class="min-h-screen w-full text-white overflow-x-hidden">
+<body class="min-h-screen w-full text-white overflow-x-hidden relative">
 
   <!-- THE MOVING GRADIENT BACKGROUND -->
   <div class="animated-bg"></div>
@@ -172,20 +185,20 @@
   </header>
 
   <main id="top">
-    <!-- HERO -->
-    <section class="relative min-h-[90vh] flex items-center pt-24 pb-16">
-      <img loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-[0.15]" src="https://images.pexels.com/photos/9665186/pexels-photo-9665186.jpeg" alt="Background">
+    <!-- HERO (With Parallax Background) -->
+    <section class="relative min-h-[90vh] flex items-center pt-24 pb-16 overflow-hidden hero-section">
+      <img loading="lazy" class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover opacity-[0.15] will-change-transform" style="top: -10%" src="https://images.pexels.com/photos/9665186/pexels-photo-9665186.jpeg" alt="Background">
       <div class="absolute inset-0" style="background:radial-gradient(circle at 70% 30%, rgba(212,175,55,.08), transparent 60%);"></div>
       <div class="glow-orb absolute -top-20 right-10 w-72 h-72 rounded-full float-glow" style="background:rgba(212,175,55,.15);"></div>
       
       <div class="relative max-w-7xl mx-auto px-5 w-full">
         <div class="max-w-4xl">
-          <span class="hero-anim inline-block gold-border rounded-full px-4 py-1 text-xs tracking-widest uppercase mb-6 text-[color:var(--gold-light)] bg-black/30 backdrop-blur-sm" style="animation-delay: 0.05s;">AI Lead Response System</span>
-          <h1 class="display hero-anim font-black leading-[1.1] mb-6 text-5xl md:text-7xl drop-shadow-lg" style="animation-delay: 0.15s; color: #fff;">Every second you delay, you lose a lead.</h1>
-          <p class="hero-anim text-lg md:text-2xl text-gray-300 max-w-3xl mb-10 leading-relaxed font-light drop-shadow-md" style="animation-delay: 0.3s;">
+          <span class="hero-anim inline-block gold-border rounded-full px-4 py-1 text-xs tracking-widest uppercase mb-6 text-[color:var(--gold-light)] bg-black/30 backdrop-blur-sm" style="animation-delay: 0.1s;">AI Lead Response System</span>
+          <h1 class="display hero-anim font-black leading-[1.1] mb-6 text-5xl md:text-7xl drop-shadow-lg" style="animation-delay: 0.25s; color: #fff;">Every second you delay, you lose a lead.</h1>
+          <p class="hero-anim text-lg md:text-2xl text-gray-300 max-w-3xl mb-10 leading-relaxed font-light drop-shadow-md" style="animation-delay: 0.4s;">
             Our AI system gets back to them instantly — via voice, WhatsApp, and email — so no lead slips away again.
           </p>
-          <div class="hero-anim flex flex-wrap items-center gap-4" style="animation-delay:.45s">
+          <div class="hero-anim flex flex-wrap items-center gap-4" style="animation-delay: 0.55s">
             <button type="button" onclick="openForm()" class="btn-gold px-8 py-4 rounded-full font-bold text-lg" style="background: linear-gradient(120deg, #f2d888, #d4af37); color: #0a0a0a;">Book a Free Demo</button>
             <a href="#proof" class="px-6 py-4 rounded-full gold-border text-sm font-medium hover:bg-[rgba(212,175,55,.15)] transition-colors text-[color:var(--gold-light)] bg-black/20 backdrop-blur-sm">Hear AI Calls</a>
           </div>
@@ -207,19 +220,19 @@
           <p class="text-gray-400 leading-relaxed">AI-powered voice calls for instant callbacks, booking appointments and qualifying leads automatically.</p>
         </article>
         
-        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.08s">
+        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.1s">
           <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background:rgba(212,175,55,.12);color:var(--gold)"><i data-lucide="message-circle" class="w-7 h-7"></i></div>
           <h3 class="font-semibold text-xl text-white mb-3">WhatsApp</h3>
           <p class="text-gray-400 leading-relaxed">AI WhatsApp responses for real-time engagement that keep conversations warm and active.</p>
         </article>
         
-        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.16s">
+        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.2s">
           <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background:rgba(212,175,55,.12);color:var(--gold)"><i data-lucide="mail" class="w-7 h-7"></i></div>
           <h3 class="font-semibold text-xl text-white mb-3">Email</h3>
           <p class="text-gray-400 leading-relaxed">AI email automation for perfectly timed replies, nurturing, and smart follow-up sequences.</p>
         </article>
         
-        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.24s">
+        <article class="card-hover reveal rounded-2xl p-7 gold-border" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.3s">
           <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background:rgba(212,175,55,.12);color:var(--gold)"><i data-lucide="database" class="w-7 h-7"></i></div>
           <h3 class="font-semibold text-xl text-white mb-3">CRM Integrations</h3>
           <p class="text-gray-400 leading-relaxed">Seamless CRM integrations. Every interaction syncs straight into your dashboard giving you a real-time view.</p>
@@ -239,7 +252,7 @@
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           
           <figure onclick="openClientModal('Shiv developers', 'A premier real estate developer specializing in luxury residential properties and modern commercial spaces. After12 helped streamline their vast inbound lead volume, instantly qualifying buyers and booking site visits 24/7 without manual intervention.', 'assets/Shiv_devolopers.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px);">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/Shiv_devolopers.jpeg" alt="Shiv devolopers">
             </div>
             <div>
@@ -248,8 +261,8 @@
             </div>
           </figure>
 
-          <figure onclick="openClientModal('Becastle Property Solutions', 'Expert property consultants offering end-to-end real estate advisory and investment strategies. They utilize After12’s automated multi-channel follow-ups to ensure high-value investor leads are engaged within seconds of inquiry.', 'assets/Becastle_property_solutions.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.08s">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <figure onclick="openClientModal('Becastle Property Solutions', 'Expert property consultants offering end-to-end real estate advisory and investment strategies. They utilize After12’s automated multi-channel follow-ups to ensure high-value investor leads are engaged within seconds of inquiry.', 'assets/Becastle_property_solutions.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.1s">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/Becastle_property_solutions.jpeg" alt="Becastle property solutions">
             </div>
             <div>
@@ -258,8 +271,8 @@
             </div>
           </figure>
 
-          <figure onclick="openClientModal('Raj Group', 'A leading corporate conglomerate with diverse ventures spanning infrastructure and enterprise solutions. After12 serves as their centralized communication hub, seamlessly routing B2B inquiries to the correct departments via AI voice filtering.', 'assets/Raj_Group.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.16s">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <figure onclick="openClientModal('Raj Group', 'A leading corporate conglomerate with diverse ventures spanning infrastructure and enterprise solutions. After12 serves as their centralized communication hub, seamlessly routing B2B inquiries to the correct departments via AI voice filtering.', 'assets/Raj_Group.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.2s">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/Raj_Group.jpeg" alt="Raj Group">
             </div>
             <div>
@@ -269,7 +282,7 @@
           </figure>
 
           <figure onclick="openClientModal('Modern Led Tec', 'Innovators in smart lighting solutions, providing energy-efficient LED technology for commercial applications. With After12, they automated their B2B quotation process, capturing contractor details via WhatsApp AI instantly.', 'assets/Modern_led_tec.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px);">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/Modern_led_tec.jpeg" alt="Modern_led_tec">
             </div>
             <div>
@@ -278,8 +291,8 @@
             </div>
           </figure>
           
-          <figure onclick="openClientModal('Worldwide Machine Impex', 'Global importers of heavy machinery and industrial equipment. After12’s CRM integration allowed their global sales team to sync leads across different time zones, ensuring no international inquiry goes unanswered.', 'assets/Worldwide_Machine_Impex.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.08s">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <figure onclick="openClientModal('Worldwide Machine Impex', 'Global importers of heavy machinery and industrial equipment. After12’s CRM integration allowed their global sales team to sync leads across different time zones, ensuring no international inquiry goes unanswered.', 'assets/Worldwide_Machine_Impex.jpeg')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.1s">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/Worldwide_Machine_Impex.jpeg" alt="Worldwide Machine Impex">
             </div>
             <div>
@@ -288,8 +301,8 @@
             </div>
           </figure>
 
-          <figure onclick="openClientModal('LED SIGN TEC', 'Creative pioneers in digital signage and visual branding. After12 enabled them to manage high volumes of custom design requests, using automated email sequences to gather requirements before the first sales call.', 'assets/LED_SIGN_TEC.png')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.16s">
-            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+          <figure onclick="openClientModal('LED SIGN TEC', 'Creative pioneers in digital signage and visual branding. After12 enabled them to manage high volumes of custom design requests, using automated email sequences to gather requirements before the first sales call.', 'assets/LED_SIGN_TEC.png')" class="card-hover reveal rounded-2xl p-8 gold-border flex flex-col items-center justify-center text-center gap-5 cursor-pointer" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.2s">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center overflow-hidden p-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-transform duration-500 hover:scale-110">
                <img class="w-full h-full object-contain" src="assets/LED_SIGN_TEC.png" alt="LED SIGN TEC">
             </div>
             <div>
@@ -324,7 +337,7 @@
         </div>
 
         <!-- Call 2 -->
-        <div class="audio-row card-hover reveal rounded-2xl p-6 gold-border flex items-center gap-6" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.08s" data-audio="audio/call2.mp3">
+        <div class="audio-row card-hover reveal rounded-2xl p-6 gold-border flex items-center gap-6" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.15s" data-audio="audio/call2.mp3">
           <button type="button" class="playBtn shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-black" style="background:linear-gradient(120deg,#f2d888,#d4af37);">
              <span class="ico-play"><i data-lucide="play" class="w-6 h-6 ml-1"></i></span>
              <span class="ico-pause hidden"><i data-lucide="pause" class="w-6 h-6"></i></span>
@@ -337,7 +350,7 @@
         </div>
 
         <!-- Call 3 -->
-        <div class="audio-row card-hover reveal rounded-2xl p-6 gold-border flex items-center gap-6" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.16s" data-audio="audio/call3.mp3">
+        <div class="audio-row card-hover reveal rounded-2xl p-6 gold-border flex items-center gap-6" style="background:rgba(22, 22, 22, 0.9); backdrop-filter: blur(10px); transition-delay:.3s" data-audio="audio/call3.mp3">
           <button type="button" class="playBtn shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-black" style="background:linear-gradient(120deg,#f2d888,#d4af37);">
              <span class="ico-play"><i data-lucide="play" class="w-6 h-6 ml-1"></i></span>
              <span class="ico-pause hidden"><i data-lucide="pause" class="w-6 h-6"></i></span>
@@ -363,7 +376,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="pt-16 pb-10 px-5" style="background:rgba(8, 8, 8, 0.75); backdrop-filter: blur(10px); border-top:1px solid rgba(212,175,55,.18);">
+  <footer class="pt-16 pb-10 px-5 relative z-10" style="background:rgba(8, 8, 8, 0.75); backdrop-filter: blur(10px); border-top:1px solid rgba(212,175,55,.18);">
     <div class="max-w-7xl mx-auto grid gap-10 md:grid-cols-3">
       <div>
         <!-- FOOTER LOGO -->
@@ -372,8 +385,9 @@
       </div>
       <div>
         <p class="font-semibold text-white mb-5 text-lg">Contact Us</p>
+        <!-- EMAIL CHANGE APPLIED HERE -->
         <p class="flex items-center gap-3 text-sm text-gray-300 mb-3 hover:text-[color:var(--gold)] transition-colors">
-            <i data-lucide="mail" class="w-4 h-4 text-[color:var(--gold)]"></i> <a href="mailto:aaravkharat@after-12.com">aaravkharat@after-12.com</a>
+            <i data-lucide="mail" class="w-4 h-4 text-[color:var(--gold)]"></i> <a href="mailto:aaravafter12@gmail.com">aaravafter12@gmail.com</a>
         </p>
         <p class="flex items-center gap-3 text-sm text-gray-300 mb-3 hover:text-[color:var(--gold)] transition-colors">
             <i data-lucide="mail" class="w-4 h-4 text-[color:var(--gold)] opacity-0"></i> <a href="mailto:sahibsingh@after-12.com">sahibsingh@after-12.com</a>
@@ -582,16 +596,28 @@
       });
     });
 
-    /* ================= SCROLL REVEAL ================= */
+    /* ================= SCROLL REVEAL (CINEMATIC) ================= */
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { 
         if (e.isIntersecting) { 
           e.target.classList.add('revealed'); 
+          // Do not unobserve if you want it to trigger every time they scroll up and down
           io.unobserve(e.target); 
         } 
       });
-    }, { threshold: .15 });
+    }, { threshold: .15, rootMargin: "0px 0px -50px 0px" });
+    
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ================= HERO PARALLAX ================= */
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBg = document.querySelector('.hero-bg-img');
+        if (heroBg) {
+            // Moves the image slightly slower than the scroll, creating depth
+            heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
+        }
+    });
 
     /* ================= AUDIO PLAYER & WAVEFORMS ================= */
     document.querySelectorAll('.waveform').forEach(wf => {
